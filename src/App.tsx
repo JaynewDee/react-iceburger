@@ -4,7 +4,7 @@ import Iceburger from './lib/Iceburger'
 function App() {
   return (
     <>
-      <Iceburger />
+      <Iceburger sizeBasis={3} />
     </>
   )
 }

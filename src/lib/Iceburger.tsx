@@ -1,63 +1,72 @@
 import { CSSProperties, useRef, useState } from "react";
 
-const sizeBasis = 3;
-const lineWidth = `${sizeBasis * .66}rem`;
-const lineThickness = `${sizeBasis / 15}rem`;
+const burgerStyles = (basis: number) => {
+    const lineWidth = `${basis * .66}rem`;
+    const lineThickness = `${basis / 15}rem`;
 
-const linesGeneral = {
-    position: "absolute",
-    width: lineWidth,
-    height: lineThickness,
-    backgroundColor: "black",
-    transition: "all 3s"
+    const linesGeneral = {
+        position: "absolute",
+        width: lineWidth,
+        height: lineThickness,
+        backgroundColor: "black",
+        borderRadius: `${basis}px`
+    }
+
+    return {
+        containerStyles: {
+            display: "flex",
+            flexFlow: "column nowrap",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+            width: `${basis}rem`,
+            height: `${basis}rem`,
+            cursor: "pointer"
+        } as CSSProperties,
+
+        topLineStyles: {
+            ...linesGeneral,
+            top: `${basis / 3}rem`,
+        } as CSSProperties,
+
+        midLineStyles: {
+            ...linesGeneral,
+            top: `${basis / 2}rem`,
+        } as CSSProperties,
+
+        botLineStyles: {
+            ...linesGeneral,
+            top: `${basis * .66}rem`,
+        } as CSSProperties
+    }
+}
+interface IceburgerProps {
+    sizeBasis: number,
+    animationKind?: "standard" | "something"
 }
 
-const burgerStylesClosed = {
-    containerStyles: {
-        display: "flex",
-        flexFlow: "column nowrap",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        width: `${sizeBasis}rem`,
-        height: `${sizeBasis}rem`,
-        cursor: "pointer"
-    } as CSSProperties,
-
-    topLineStyles: {
-        ...linesGeneral,
-        top: `${sizeBasis / 3}rem`,
-        // borderRadius: `${sizeBasis}px ${sizeBasis}px 0 0`
-    } as CSSProperties,
-
-    midLineStyles: {
-        ...linesGeneral,
-        top: `${sizeBasis / 2}rem`,
-    } as CSSProperties,
-
-    botLineStyles: {
-        ...linesGeneral,
-        top: `${sizeBasis * .66}rem`,
-        // borderRadius: `0 0 ${sizeBasis}px ${sizeBasis}px`
-    } as CSSProperties
-}
-
-
-export default function Iceburger() {
+export default function Iceburger({ sizeBasis, animationKind = "standard" }: IceburgerProps) {
     const [state, setState] = useState(false)
 
-    console.log(state ? "Menu open." : "Menu closed.");
+    const {
+        containerStyles,
+        topLineStyles,
+        midLineStyles,
+        botLineStyles
+    } = burgerStyles(sizeBasis);
 
-    const { containerStyles, topLineStyles, midLineStyles, botLineStyles } = burgerStylesClosed;
-
-    const topRef = useRef<HTMLDivElement | null>(null);
-    const midRef = useRef<HTMLDivElement | null>(null);
-    const botRef = useRef<HTMLDivElement | null>(null);
+    const [topRef, midRef, botRef] = [
+        useRef<HTMLDivElement | null>(null),
+        useRef<HTMLDivElement | null>(null),
+        useRef<HTMLDivElement | null>(null)
+    ];
 
     const toggleState = () => {
+        if (animationKind === "standard") {
+            animateStandard(state, sizeBasis, topRef.current, midRef.current, botRef.current);
+        }
+
         setState(prev => !prev)
-        if (state) animateOpen(topRef.current, midRef.current, botRef.current);
-        else animateClose(topRef.current, midRef.current, botRef.current);
     };
 
     return (
@@ -69,42 +78,62 @@ export default function Iceburger() {
     )
 }
 
-const openFramesTop = [
-    {
-        top: `${sizeBasis / 3}rem`,
-    },
-    {
-        top: `${sizeBasis * .66}rem`,
+type LineRefCurrent = HTMLDivElement | null;
+
+function animateStandard(state: boolean, basis: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
+
+    const framesTop = [
+        {
+            top: `${basis / 3}rem`,
+            transform: "rotate(0deg)",
+        },
+        {
+            top: `${basis / 2}rem`,
+            transform: "rotate(0deg)",
+        },
+        {
+            top: `${basis / 2}rem`,
+            transform: "rotate(45deg)",
+        }
+    ]
+
+    const framesMid = [
+        {
+            width: `${basis * .66}rem`
+        },
+        {
+            width: 0
+        },
+    ]
+
+    const framesBot = [
+        {
+            top: `${basis * .66}rem`,
+            transform: "rotate(0deg)",
+        },
+        {
+            top: `${basis / 2}rem`,
+            transform: "rotate(0deg)",
+        },
+        {
+            transform: "rotate(-45deg)",
+            top: `${basis / 2}rem`,
+        }
+    ]
+
+    const animationOptions = (state: boolean) => ({
+        duration: 200,
+        iterations: 1,
+        fill: state ? "backwards" : "forwards" as FillMode,
+    });
+
+    if (state) {
+        topEl?.animate(framesTop, animationOptions(state)).reverse();
+        midEl?.animate(framesMid, animationOptions(state)).reverse();
+        botEl?.animate(framesBot, animationOptions(state)).reverse();
+    } else {
+        topEl?.animate(framesTop, animationOptions(state));
+        midEl?.animate(framesMid, animationOptions(state));
+        botEl?.animate(framesBot, animationOptions(state));
     }
-]
-
-const openFramesMid = [
-    {
-        top: `${sizeBasis / 2}rem`,
-    },
-    {
-        top: `${sizeBasis * .66}rem`,
-    }
-]
-
-const openFramesBot = [
-    {
-        top: `${sizeBasis * .66}rem`,
-    },
-    {
-        top: `${sizeBasis * .66}rem`,
-    }
-]
-
-const openOptions = { duration: 1, iterations: 1, fillMode: "forwards" };
-
-type RefCurrent = HTMLDivElement | null;
-
-function animateOpen(topEl: RefCurrent, midEl: RefCurrent, botEl: RefCurrent) {
-    topEl?.animate(openFramesTop, openOptions);
-    midEl?.animate(openFramesMid, openOptions);
-    botEl?.animate(openFramesBot, openOptions);
-    console.log(topEl?.getAnimations())
 }
-
-function animateClose(topEl: RefCurrent, midEl: RefCurrent, botEl: RefCurrent) { }
