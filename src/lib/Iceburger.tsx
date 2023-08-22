@@ -4,8 +4,7 @@ import React, { CSSProperties, useRef, useState } from "react";
 export interface IceburgerOptions {
     size?: number,
     color?: string,
-    // add new animation kinds here
-    kind?: "standard" | "something",
+    kind?: "standard" | "honeycomb",
     // in millis
     duration?: number,
     lineThickness?: LineThickness
@@ -13,8 +12,8 @@ export interface IceburgerOptions {
 
 export type LineThickness = "thin" | "standard" | "bold";
 
-const burgerStyles = (size: number, color: string, lineThickness: LineThickness) => {
-    const lineWidth = `${size * .66}rem`;
+const burgerStyles = (size: number, color: string, kind: string, lineThickness: LineThickness) => {
+    const lineWidth = `${size * (kind === "honeycomb" ? .5 : .66)}rem`;
 
     const lineHeight = lineThickness === "thin" ? `${size / 25}rem` : lineThickness === "standard" ? `${size / 20}rem` : `${size / 15}rem`
 
@@ -46,6 +45,7 @@ const burgerStyles = (size: number, color: string, lineThickness: LineThickness)
 
         midLineStyles: {
             ...linesGeneral,
+            width: kind === "honeycomb" ? `${size * .66}rem` : lineWidth,
             top: `${size / 2}rem`,
         } as CSSProperties,
 
@@ -56,7 +56,6 @@ const burgerStyles = (size: number, color: string, lineThickness: LineThickness)
     }
 }
 
-
 export function Iceburger({ size = 3, kind = "standard", duration = 200, color = "black", lineThickness = "standard" }: IceburgerOptions) {
     const [state, setState] = useState(false)
 
@@ -65,7 +64,7 @@ export function Iceburger({ size = 3, kind = "standard", duration = 200, color =
         topLineStyles,
         midLineStyles,
         botLineStyles
-    } = burgerStyles(size, color, lineThickness);
+    } = burgerStyles(size, color, kind, lineThickness);
 
     const [topRef, midRef, botRef] = [
         useRef<HTMLDivElement | null>(null),
@@ -73,9 +72,12 @@ export function Iceburger({ size = 3, kind = "standard", duration = 200, color =
         useRef<HTMLDivElement | null>(null)
     ];
 
+    const standardAnimation = kind === "standard" || kind === "honeycomb";
+
     const toggleState = () => {
-        if (kind === "standard") {
-            animateStandard(state, size, duration, topRef.current, midRef.current, botRef.current);
+
+        if (standardAnimation) {
+            animateStandard(state, kind, size, duration, topRef.current, midRef.current, botRef.current);
         }
 
         setState(prev => !prev)
@@ -92,20 +94,23 @@ export function Iceburger({ size = 3, kind = "standard", duration = 200, color =
 
 type LineRefCurrent = HTMLDivElement | null;
 
-function animateStandard(state: boolean, size: number, duration: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
+function animateStandard(state: boolean, kind: string, size: number, duration: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
 
     const framesTop = [
         {
             top: `${size / 3}rem`,
             transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
         },
         {
             top: `${size / 2}rem`,
             transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
         },
         {
             top: `${size / 2}rem`,
             transform: "rotate(45deg)",
+            width: `${size * .5}rem`
         }
     ]
 
@@ -122,14 +127,17 @@ function animateStandard(state: boolean, size: number, duration: number, topEl: 
         {
             top: `${size * .66}rem`,
             transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
         },
         {
             top: `${size / 2}rem`,
             transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
         },
         {
             transform: "rotate(-45deg)",
             top: `${size / 2}rem`,
+            width: `${size * .5}rem`
         }
     ]
 
