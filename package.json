@@ -35,7 +35,7 @@
   "exports": {
     ".": {
       "import": "./dist/react-iceburger.es.js",
-      "require": "./dist/my-component.umd.js"
+      "require": "./dist/react-iceburger.umd.js"
     }
   },
   "files": [
