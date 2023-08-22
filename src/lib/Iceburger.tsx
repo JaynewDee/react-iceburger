@@ -4,7 +4,7 @@ import React, { CSSProperties, useRef, useState } from "react";
 export interface IceburgerOptions {
     size?: number,
     color?: string,
-    kind?: "standard" | "honeycomb",
+    kind?: "standard" | "honeycomb" | "arrow",
     // in millis
     duration?: number,
     lineThickness?: LineThickness
@@ -30,9 +30,9 @@ const burgerStyles = (size: number, color: string, kind: string, lineThickness: 
             display: "flex",
             flexFlow: "column nowrap",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: kind === "arrow" ? "flex-end" : "center",
             position: "relative",
-            width: `${size}rem`,
+            width: `${size * .66}rem`,
             height: `${size}rem`,
             cursor: "pointer",
             background: "none"
@@ -73,11 +73,14 @@ export function Iceburger({ size = 3, kind = "standard", duration = 200, color =
     ];
 
     const standardAnimation = kind === "standard" || kind === "honeycomb";
+    const arrowAnimation = kind === "arrow";
 
     const toggleState = () => {
 
         if (standardAnimation) {
             animateStandard(state, kind, size, duration, topRef.current, midRef.current, botRef.current);
+        } else if (arrowAnimation) {
+            animateArrow(state, kind, size, color, duration, topRef.current, midRef.current, botRef.current)
         }
 
         setState(prev => !prev)
@@ -135,8 +138,8 @@ function animateStandard(state: boolean, kind: string, size: number, duration: n
             width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
         },
         {
-            transform: "rotate(-45deg)",
             top: `${size / 2}rem`,
+            transform: "rotate(-45deg)",
             width: `${size * .5}rem`
         }
     ]
@@ -157,3 +160,76 @@ function animateStandard(state: boolean, kind: string, size: number, duration: n
         botEl?.animate(framesBot, animationOptions);
     }
 }
+
+function animateArrow(state: boolean, kind: string, size: number, color: string, duration: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
+
+    const framesTop = [
+        {
+            // top: `${size / 3}rem`,
+            transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
+        },
+        {
+            // top: `${size / 2}rem`,
+            transform: "rotate(30deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
+        },
+        {
+            // top: `${size / 2}rem`,
+            transform: "rotate(30deg)",
+            width: `${size * .5}rem`
+
+        }
+    ]
+
+    const framesMid = [
+        {
+            width: `${size * .66}rem`,
+            outline: "none"
+        },
+        {
+            width: `${size * .66}rem`,
+            outline: "none"
+        },
+        {
+            width: `${size * .05}rem`,
+            outline: `${size * .03}rem solid ${color}`
+        },
+    ]
+
+    const framesBot = [
+        {
+            // top: `${size * .66}rem`,
+            transform: "rotate(0deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
+        },
+        {
+            // top: `${size / 2}rem`,
+            transform: "rotate(-30deg)",
+            width: kind === "honeycomb" ? `${size * .5}rem` : `${size * .66}rem`
+        },
+        {
+            // top: `${size / 2}rem`,
+            transform: "rotate(-30deg)",
+            width: `${size * .5}rem`
+
+        }
+    ]
+
+    const animationOptions = {
+        duration,
+        iterations: 1,
+        fill: state ? "backwards" : "forwards" as FillMode,
+    };
+
+    if (state) {
+        topEl?.animate(framesTop, animationOptions).reverse();
+        midEl?.animate(framesMid, animationOptions).reverse();
+        botEl?.animate(framesBot, animationOptions).reverse();
+    } else {
+        topEl?.animate(framesTop, animationOptions);
+        midEl?.animate(framesMid, animationOptions);
+        botEl?.animate(framesBot, animationOptions);
+    }
+}
+
