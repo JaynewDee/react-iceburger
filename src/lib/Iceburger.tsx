@@ -13,7 +13,6 @@ export interface IceburgerOptions {
 
 export type LineThickness = "thin" | "standard" | "bold";
 
-
 const burgerStyles = (size: number, color: string, lineThickness: LineThickness) => {
     const lineWidth = `${size * .66}rem`;
 
