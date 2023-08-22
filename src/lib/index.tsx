@@ -1,3 +1,3 @@
-import Iceburger from "./Iceburger";
+import { Iceburger } from "./Iceburger";
 
 export default Iceburger;

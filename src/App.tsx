@@ -1,5 +1,5 @@
 import './App.css'
-import Iceburger from './lib/Iceburger'
+import { Iceburger } from './lib/Iceburger'
 
 function App() {
   return (

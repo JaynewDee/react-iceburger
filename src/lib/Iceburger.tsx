@@ -1,6 +1,18 @@
-import { CSSProperties, useRef, useState } from "react";
+/* @ts-ignore */
+import React, { CSSProperties, useRef, useState } from "react";
 
-type LineThickness = "thin" | "standard" | "bold"
+export interface IceburgerOptions {
+    size?: number,
+    color?: string,
+    // add new animation kinds here
+    kind?: "standard" | "something",
+    // in millis
+    duration?: number,
+    lineThickness?: LineThickness
+}
+
+export type LineThickness = "thin" | "standard" | "bold";
+
 
 const burgerStyles = (size: number, color: string, lineThickness: LineThickness) => {
     const lineWidth = `${size * .66}rem`;
@@ -45,17 +57,8 @@ const burgerStyles = (size: number, color: string, lineThickness: LineThickness)
     }
 }
 
-interface IceburgerOptions {
-    size?: number,
-    color?: string,
-    // add new animation kinds here
-    kind?: "standard" | "something",
-    // in millis
-    duration?: number,
-    lineThickness?: LineThickness
-}
 
-export default function Iceburger({ size = 3, kind = "standard", duration = 200, color = "black", lineThickness = "standard" }: IceburgerOptions) {
+export function Iceburger({ size = 3, kind = "standard", duration = 200, color = "black", lineThickness = "standard" }: IceburgerOptions) {
     const [state, setState] = useState(false)
 
     const {
