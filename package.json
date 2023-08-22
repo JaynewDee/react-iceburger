@@ -1,6 +1,6 @@
 {
   "name": "react-iceburger",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -34,8 +34,14 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/react-iceburger.es.js",
-      "require": "./dist/react-iceburger.umd.js"
+      "import": [
+        "./dist/react-iceburger.es.js",
+        "./dist/index.d.ts"
+      ],
+      "require": [
+        "./dist/react-iceburger.umd.js",
+        "./dist/index.d.ts"
+      ]
     }
   },
   "files": [
