@@ -1,6 +1,6 @@
 {
   "name": "react-iceburger",
-  "version": "0.0.13",
+  "version": "0.0.16",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -34,7 +34,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/react-iceburger.es.js",
+      "import": [
+        "./dist/react-iceburger.es.js"
+      ],
       "require": "./dist/react-iceburger.umd.js"
     }
   },
@@ -42,5 +44,5 @@
     "dist",
     "README.md"
   ],
-  "types": "dist/Iceburger"
+  "types": "dist/index.d.ts"
 }
