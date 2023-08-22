@@ -1,15 +1,18 @@
 import { CSSProperties, useRef, useState } from "react";
 
-const burgerStyles = (basis: number) => {
-    const lineWidth = `${basis * .66}rem`;
-    const lineThickness = `${basis / 15}rem`;
+type LineThickness = "thin" | "standard" | "bold"
+
+const burgerStyles = (size: number, color: string, lineThickness: LineThickness) => {
+    const lineWidth = `${size * .66}rem`;
+
+    const lineHeight = lineThickness === "thin" ? `${size / 25}rem` : lineThickness === "standard" ? `${size / 20}rem` : `${size / 15}rem`
 
     const linesGeneral = {
         position: "absolute",
         width: lineWidth,
-        height: lineThickness,
-        backgroundColor: "black",
-        borderRadius: `${basis}px`
+        height: lineHeight,
+        backgroundColor: `${color}`,
+        borderRadius: `${size}px`
     }
 
     return {
@@ -19,33 +22,40 @@ const burgerStyles = (basis: number) => {
             justifyContent: "center",
             alignItems: "center",
             position: "relative",
-            width: `${basis}rem`,
-            height: `${basis}rem`,
-            cursor: "pointer"
+            width: `${size}rem`,
+            height: `${size}rem`,
+            cursor: "pointer",
+            background: "none"
         } as CSSProperties,
 
         topLineStyles: {
             ...linesGeneral,
-            top: `${basis / 3}rem`,
+            top: `${size / 3}rem`,
         } as CSSProperties,
 
         midLineStyles: {
             ...linesGeneral,
-            top: `${basis / 2}rem`,
+            top: `${size / 2}rem`,
         } as CSSProperties,
 
         botLineStyles: {
             ...linesGeneral,
-            top: `${basis * .66}rem`,
+            top: `${size * .66}rem`,
         } as CSSProperties
     }
 }
-interface IceburgerProps {
-    sizeBasis: number,
-    animationKind?: "standard" | "something"
+
+interface IceburgerOptions {
+    size?: number,
+    color?: string,
+    // add new animation kinds here
+    kind?: "standard" | "something",
+    // in millis
+    duration?: number,
+    lineThickness?: LineThickness
 }
 
-export default function Iceburger({ sizeBasis, animationKind = "standard" }: IceburgerProps) {
+export default function Iceburger({ size = 3, kind = "standard", duration = 200, color = "black", lineThickness = "standard" }: IceburgerOptions) {
     const [state, setState] = useState(false)
 
     const {
@@ -53,7 +63,7 @@ export default function Iceburger({ sizeBasis, animationKind = "standard" }: Ice
         topLineStyles,
         midLineStyles,
         botLineStyles
-    } = burgerStyles(sizeBasis);
+    } = burgerStyles(size, color, lineThickness);
 
     const [topRef, midRef, botRef] = [
         useRef<HTMLDivElement | null>(null),
@@ -62,8 +72,8 @@ export default function Iceburger({ sizeBasis, animationKind = "standard" }: Ice
     ];
 
     const toggleState = () => {
-        if (animationKind === "standard") {
-            animateStandard(state, sizeBasis, topRef.current, midRef.current, botRef.current);
+        if (kind === "standard") {
+            animateStandard(state, size, duration, topRef.current, midRef.current, botRef.current);
         }
 
         setState(prev => !prev)
@@ -80,26 +90,26 @@ export default function Iceburger({ sizeBasis, animationKind = "standard" }: Ice
 
 type LineRefCurrent = HTMLDivElement | null;
 
-function animateStandard(state: boolean, basis: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
+function animateStandard(state: boolean, size: number, duration: number, topEl: LineRefCurrent, midEl: LineRefCurrent, botEl: LineRefCurrent) {
 
     const framesTop = [
         {
-            top: `${basis / 3}rem`,
+            top: `${size / 3}rem`,
             transform: "rotate(0deg)",
         },
         {
-            top: `${basis / 2}rem`,
+            top: `${size / 2}rem`,
             transform: "rotate(0deg)",
         },
         {
-            top: `${basis / 2}rem`,
+            top: `${size / 2}rem`,
             transform: "rotate(45deg)",
         }
     ]
 
     const framesMid = [
         {
-            width: `${basis * .66}rem`
+            width: `${size * .66}rem`
         },
         {
             width: 0
@@ -108,32 +118,32 @@ function animateStandard(state: boolean, basis: number, topEl: LineRefCurrent, m
 
     const framesBot = [
         {
-            top: `${basis * .66}rem`,
+            top: `${size * .66}rem`,
             transform: "rotate(0deg)",
         },
         {
-            top: `${basis / 2}rem`,
+            top: `${size / 2}rem`,
             transform: "rotate(0deg)",
         },
         {
             transform: "rotate(-45deg)",
-            top: `${basis / 2}rem`,
+            top: `${size / 2}rem`,
         }
     ]
 
-    const animationOptions = (state: boolean) => ({
-        duration: 200,
+    const animationOptions = {
+        duration,
         iterations: 1,
         fill: state ? "backwards" : "forwards" as FillMode,
-    });
+    };
 
     if (state) {
-        topEl?.animate(framesTop, animationOptions(state)).reverse();
-        midEl?.animate(framesMid, animationOptions(state)).reverse();
-        botEl?.animate(framesBot, animationOptions(state)).reverse();
+        topEl?.animate(framesTop, animationOptions).reverse();
+        midEl?.animate(framesMid, animationOptions).reverse();
+        botEl?.animate(framesBot, animationOptions).reverse();
     } else {
-        topEl?.animate(framesTop, animationOptions(state));
-        midEl?.animate(framesMid, animationOptions(state));
-        botEl?.animate(framesBot, animationOptions(state));
+        topEl?.animate(framesTop, animationOptions);
+        midEl?.animate(framesMid, animationOptions);
+        botEl?.animate(framesBot, animationOptions);
     }
 }

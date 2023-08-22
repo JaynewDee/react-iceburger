@@ -1,0 +1,1 @@
+- A minimum size prop value of 2 is recommended for best appearance.
