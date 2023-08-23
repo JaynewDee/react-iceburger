@@ -1,8 +1,10 @@
 #root {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   vertical-align: center;
+  margin-right: .5rem;
 }
+

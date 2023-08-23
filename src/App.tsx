@@ -1,13 +1,28 @@
 import React from 'react'
 import './App.css'
 import { Iceburger } from './lib/Iceburger'
+import { useState } from 'react'
+import { Drawer } from './lib/Drawer';
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => setIsOpen(prev => !prev);
+
   return (
     <>
-      <Iceburger size={3} color="rgba(0, 69, 169)" kind="standard" duration={200} lineThickness='standard' />
+      <Iceburger
+        onClick={toggleOpen}
+      />
+      <Drawer
+        open={isOpen}
+        orientation="right"
+        style={{ backgroundColor: "rgba(200, 200, 255, .9) ", height: "350px" }}>
+      </Drawer>
     </>
   )
 }
 
-export default App
+export default App;
+
+
