@@ -1,6 +1,19 @@
 {
   "name": "react-iceburger",
-  "version": "0.0.18",
+  "version": "0.1.01",
+  "author": {
+    "name": "Joshua Newell Diehl"
+  },
+  "homepage": "https://github.com/JaynewDee/react-iceburger",
+  "license": "MIT",
+  "description": "A customizable menu component library",
+  "keywords": [
+    "react",
+    "component",
+    "menu",
+    "hamburger",
+    "drawer"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
