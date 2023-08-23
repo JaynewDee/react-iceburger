@@ -1,5 +1,6 @@
 import {
   CSSProperties,
+  KeyboardEvent,
   useRef,
   useState,
 } from "react";
@@ -134,8 +135,14 @@ export function Iceburger({
     setState((prev) => !prev);
   };
 
+  const handleKeyToggle = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === " " || e.key === "Enter" || e.key === "Spacebar") {
+      toggleState();
+    }
+  }
+
   return (
-    <div style={containerStyles} onClick={toggleState} className={className}>
+    <div style={containerStyles} onClick={toggleState} className={className} onKeyDown={(e) => handleKeyToggle(e)} role="button" tabIndex={1} aria-pressed="false" >
       <div style={topLineStyles} ref={topRef}></div>
       <div style={midLineStyles} ref={midRef}></div>
       <div style={botLineStyles} ref={botRef}></div>
