@@ -1,8 +1,13 @@
 #root {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   vertical-align: center;
+}
+
+.burger-drawer {
+  border-radius: 3px;
+  background-color: teal;
 }

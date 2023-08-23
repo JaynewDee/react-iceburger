@@ -1,0 +1,48 @@
+import { CSSProperties } from "react"
+
+type Orientation = "left" | "right"
+
+interface DrawerProps {
+    open: boolean
+    orientation: Orientation
+    children?: JSX.Element | JSX.Element[],
+    width?: number;
+    duration?: number;
+    className?: string;
+    style?: CSSProperties
+}
+
+export function Drawer({ open, children, orientation, width = 250, duration = 1000, className = "", style = {} }: DrawerProps) {
+    document.documentElement.style.overflow = "hidden";
+
+    const drawerStyles = (open: boolean, orientation: Orientation) => {
+
+        const locationOrigin = "translateX(0)";
+
+        const drawerBaseStyles = {
+            width: style.width || width,
+            transform: locationOrigin,
+            position: "absolute",
+            transition: `all ${duration}ms`,
+        }
+
+        const orientationStyles = orientation === "left" ? {
+            left: 0
+        } : { right: 0 }
+
+        const stateStyles = open ? {
+            transform: locationOrigin
+        } : {
+            transform: orientation === "left" ? `translateX(-${width * 1.01}px)` : `translateX(${width * 1.01}px)`
+        }
+
+        return { ...drawerBaseStyles, ...orientationStyles, ...stateStyles, ...style } as CSSProperties;
+    }
+
+    return (
+        <div style={drawerStyles(open, orientation)} className={className}>
+            {children}
+        </div>
+    )
+}
+
