@@ -18,6 +18,7 @@ export function Drawer({
   orientation,
   children,
   width = 250,
+  height = 500,
   duration = 1000,
   className = "",
   style = {},
@@ -29,6 +30,7 @@ export function Drawer({
 
     const drawerBaseStyles = {
       width: style.width || width,
+      height: style.height || height,
       transform: locationOrigin,
       position: "absolute",
       transition: `all ${duration}ms`,
