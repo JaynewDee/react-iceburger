@@ -1,8 +1,5 @@
-/* @ts-ignore */
-import React, {
+import {
   CSSProperties,
-  Dispatch,
-  SetStateAction,
   useRef,
   useState,
 } from "react";
@@ -11,7 +8,6 @@ export interface IceburgerOptions {
   size?: number;
   color?: string;
   kind?: "standard" | "honeycomb" | "arrow";
-  // in millis
   duration?: number;
   lineThickness?: LineThickness;
   onClick?: any;
@@ -32,8 +28,8 @@ const burgerStyles = (
     lineThickness === "thin"
       ? `${size / 25}rem`
       : lineThickness === "standard"
-      ? `${size / 20}rem`
-      : `${size / 15}rem`;
+        ? `${size / 20}rem`
+        : `${size / 15}rem`;
 
   const linesGeneral = {
     position: "absolute",
@@ -78,7 +74,7 @@ const burgerStyles = (
 export function Iceburger({
   size = 3,
   kind = "standard",
-  duration = 200,
+  duration = 300,
   color = "black",
   lineThickness = "standard",
   onClick,

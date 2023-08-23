@@ -7,6 +7,7 @@ export interface DrawerProps {
   orientation: Orientation;
   children?: JSX.Element | JSX.Element[];
   width?: number;
+  height?: number;
   duration?: number;
   className?: string;
   style?: CSSProperties;
@@ -31,25 +32,24 @@ export function Drawer({
       transform: locationOrigin,
       position: "absolute",
       transition: `all ${duration}ms`,
+      zIndex: 25
     };
 
     const orientationStyles =
       orientation === "left"
-        ? {
-            left: 0,
-          }
+        ? { left: 0 }
         : { right: 0 };
 
     const stateStyles = open
       ? {
-          transform: locationOrigin,
-        }
+        transform: locationOrigin,
+      }
       : {
-          transform:
-            orientation === "left"
-              ? `translateX(-${width * 1.01}px)`
-              : `translateX(${width * 1.01}px)`,
-        };
+        transform:
+          orientation === "left"
+            ? `translateX(-${width * 1.01}px)`
+            : `translateX(${width * 1.01}px)`,
+      };
 
     return {
       ...drawerBaseStyles,
