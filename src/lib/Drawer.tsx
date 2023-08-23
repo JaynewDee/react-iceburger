@@ -29,8 +29,8 @@ export function Drawer({
     const locationOrigin = "translateX(0)";
 
     const drawerBaseStyles = {
-      width: style.width || width,
-      height: style.height || height,
+      width: style.width || `${width}px`,
+      height: style.height || `${height}px`,
       transform: locationOrigin,
       position: "absolute",
       transition: `all ${duration}ms`,
