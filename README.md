@@ -3,36 +3,43 @@
 ### _Cool Burger_
 
 > A simple burger menu component library
->> `npm i react-iceburger`
+>
+> > `npm i react-iceburger`
+
 ```js
-import { Iceburger } from 'react-iceburger';
+import { Iceburger, Drawer } from "react-iceburger";
 ```
-### Props Options
+
+### Burger Prop Options
+
 All props are optional with sensible defaults
 
-__size__ : `number`  
+**size** : `number`
+
 ```js
-<Iceburger size={2.5}/>
+<Iceburger size={2.5} />
 ```
+
 _Note:_ A minimum size prop value of 2 is recommended for best appearance.
 
-__color__ : `string`   
+**color** : `string`  
 accepts any valid css color value
+
 ```js
 <Iceburger color="rgba(0, 50, 200, .9)" />
 ```
 
-__lineThickness__ : `string`   
+**lineThickness** : `string`  
 relative thickness of burger lines
 `"thin"` | `"standard"(default)` | `"bold"`
 
+**duration** : `number`  
+millisecond duration of animation sequence
 
-__duration__ : `number`   
-millisecond duration of animation sequence 
 ```js
 <Iceburger duration={300} />
 ```
 
-__kind__ : `string`  
+**kind** : `string`  
 menu variant
 `"standard"(default)` | `"honeycomb"` | `"arrow"`

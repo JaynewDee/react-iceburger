@@ -21,8 +21,8 @@
 
     /* Typings */
     "outDir": "dist",
-    "declaration": true,
-  }, 
+    "declaration": true
+  },
   "include": ["src/lib"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
