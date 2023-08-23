@@ -1,8 +1,8 @@
 import { CSSProperties } from "react"
 
-type Orientation = "left" | "right"
+export type Orientation = "left" | "right"
 
-interface DrawerProps {
+export interface DrawerProps {
     open: boolean
     orientation: Orientation
     children?: JSX.Element | JSX.Element[],
