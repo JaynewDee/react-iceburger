@@ -142,7 +142,7 @@ export function Iceburger({
   }
 
   return (
-    <div style={containerStyles} onClick={toggleState} className={className} onKeyDown={(e) => handleKeyToggle(e)} role="button" tabIndex={1} aria-pressed="false" >
+    <div style={containerStyles} onClick={toggleState} className={className} onKeyDown={(e) => handleKeyToggle(e)} role="button" tabIndex={1} aria-pressed="false" aria-label="Menu toggle button">
       <div style={topLineStyles} ref={topRef}></div>
       <div style={midLineStyles} ref={midRef}></div>
       <div style={botLineStyles} ref={botRef}></div>
