@@ -3,8 +3,8 @@
 
 ### _Cool Burger_
 
-> A simple burger menu component library  
-> Designed for mix & match - use just the burger, use just the drawer, or use them together
+A simple burger menu component library.   
+Designed for mix & match - use just the burger, use just the drawer, or use them together
 >> `npm i react-iceburger`
 ```js
 import { Iceburger, Drawer } from 'react-iceburger';
