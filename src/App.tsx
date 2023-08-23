@@ -13,6 +13,7 @@ function App() {
     <>
       <Iceburger
         onClick={toggleOpen}
+        lineThickness='bold'
       />
       <Drawer
         open={isOpen}
