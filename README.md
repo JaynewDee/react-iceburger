@@ -3,8 +3,8 @@
 
 ### _Cool Burger_
 
-> A simple burger menu component library
-> Designed for mix & match - use just the burger, use just the drawer, or use them together
+A simple burger menu component library.   
+Designed for mix & match - use just the burger, use just the drawer, or use them together
 >> `npm i react-iceburger`
 ```js
 import { Iceburger, Drawer } from 'react-iceburger';
@@ -96,5 +96,5 @@ __open__ : `boolean`
 The drawer component must receive a boolean state value in order to transition between states  
 
 __orientation__ : `"left"` | `"right"`  
-"left" - drawer emerges from the left edge of the viewport
+"left" - drawer emerges from the left edge of the viewport  
 "right" - drawer emerges from the right edge of the viewport
