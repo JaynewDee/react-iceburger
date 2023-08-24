@@ -1,5 +1,6 @@
 import {
   CSSProperties,
+  KeyboardEvent,
   useRef,
   useState,
 } from "react";
@@ -134,8 +135,14 @@ export function Iceburger({
     setState((prev) => !prev);
   };
 
+  const handleKeyToggle = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === " " || e.key === "Enter" || e.key === "Spacebar") {
+      toggleState();
+    }
+  }
+
   return (
-    <div style={containerStyles} onClick={toggleState} className={className}>
+    <div style={containerStyles} onClick={toggleState} className={className} onKeyDown={(e) => handleKeyToggle(e)} role="button" tabIndex={1} aria-pressed="false" aria-label="Menu toggle button">
       <div style={topLineStyles} ref={topRef}></div>
       <div style={midLineStyles} ref={midRef}></div>
       <div style={botLineStyles} ref={botRef}></div>
@@ -154,16 +161,19 @@ function animateStandard(
   midEl: LineRefCurrent,
   botEl: LineRefCurrent,
 ) {
+
+  const widthByKind = kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`;
+
   const framesTop = [
     {
       top: `${size / 3 / 2}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
@@ -185,12 +195,12 @@ function animateStandard(
     {
       top: `${(size * 0.66) / 1.33}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,

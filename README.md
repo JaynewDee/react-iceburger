@@ -98,3 +98,8 @@ The drawer component must receive a boolean state value in order to transition b
 __orientation__ : `"left"` | `"right"`  
 "left" - drawer emerges from the left edge of the viewport  
 "right" - drawer emerges from the right edge of the viewport
+
+
+## _Changelog_
+
+8/24/23: v0.1.26 - support sequential focus navigation while drawer is visible
