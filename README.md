@@ -102,4 +102,4 @@ __orientation__ : `"left"` | `"right"`
 
 ## _Changelog_
 
-8/24/23 - support sequential focus navigation while drawer is visible
+8/24/23: v0.1.26 - support sequential focus navigation while drawer is visible
