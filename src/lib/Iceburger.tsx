@@ -136,6 +136,7 @@ export function Iceburger({
   };
 
   const handleKeyToggle = (e: KeyboardEvent<HTMLDivElement>) => {
+    console.log(e.key)
     if (e.key === " " || e.key === "Enter" || e.key === "Spacebar") {
       toggleState();
     }
