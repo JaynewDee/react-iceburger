@@ -136,7 +136,6 @@ export function Iceburger({
   };
 
   const handleKeyToggle = (e: KeyboardEvent<HTMLDivElement>) => {
-    console.log(e.key)
     if (e.key === " " || e.key === "Enter" || e.key === "Spacebar") {
       toggleState();
     }
@@ -162,16 +161,19 @@ function animateStandard(
   midEl: LineRefCurrent,
   botEl: LineRefCurrent,
 ) {
+
+  const widthByKind = kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`;
+
   const framesTop = [
     {
       top: `${size / 3 / 2}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
@@ -193,12 +195,12 @@ function animateStandard(
     {
       top: `${(size * 0.66) / 1.33}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,
       transform: "rotate(0deg)",
-      width: kind === "honeycomb" ? `${size * 0.5}rem` : `${size * 0.66}rem`,
+      width: widthByKind,
     },
     {
       top: `${size / 2 / 1.5}rem`,

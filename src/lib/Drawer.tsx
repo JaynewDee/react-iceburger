@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, MutableRefObject, useEffect, useRef, useState } from "react";
 
 export type Orientation = "left" | "right";
 
@@ -24,6 +24,39 @@ export function Drawer({
   style = {},
 }: DrawerProps) {
   document.documentElement.style.overflow = "hidden";
+
+  const visibilityRef = useRef<HTMLDivElement | null>(null);
+
+  const isVisible = useIsVisible(visibilityRef)
+
+  useEffect(() => {
+    // Check if the component is currently visible.
+    if (isVisible) {
+      visibilityRef.current?.blur()
+      const children = visibilityRef.current?.children;
+
+      if (children instanceof HTMLCollection) {
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i];
+          if (child instanceof HTMLElement) {
+            (child as HTMLElement).blur();
+            child.tabIndex = -1;
+          }
+        }
+      }
+    } else {
+      const children = visibilityRef.current?.children;
+
+      if (children instanceof HTMLCollection) {
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i];
+          if (child instanceof HTMLElement) {
+            child.tabIndex = 0;
+          }
+        }
+      }
+    }
+  }, [open]);
 
   const drawerStyles = (open: boolean, orientation: Orientation) => {
     const locationOrigin = "translateX(0)";
@@ -62,8 +95,29 @@ export function Drawer({
   };
 
   return (
-    <div style={drawerStyles(open, orientation)} className={className}>
+    <div style={drawerStyles(open, orientation)} className={className} ref={visibilityRef} tabIndex={-1}>
       {children}
     </div>
   );
+}
+
+function useIsVisible(ref: MutableRefObject<HTMLDivElement | null>) {
+  const [isIntersecting, setIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIntersecting(entry.isIntersecting);
+      },
+      { threshold: .1 },
+    );
+
+    ref.current && observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref]);
+
+  return isIntersecting;
 }

@@ -19,9 +19,9 @@ function App() {
         open={isOpen}
         orientation="right"
         style={{ backgroundColor: "rgba(200, 200, 255, .9) ", height: "350px" }}>
-        {/* <a href="/"></a>
-        <a href="/"></a>
-        <a href="/"></a> */}
+        <a href="/">Hello</a>
+        <a href="/">Burger</a>
+        <a href="/">Drawer</a>
       </Drawer>
     </>
   )
