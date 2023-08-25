@@ -23,14 +23,13 @@ export function Drawer({
   className = "",
   style = {},
 }: DrawerProps) {
-  document.documentElement.style.overflow = "hidden";
+  document.documentElement.style.overflowX = "hidden";
 
   const visibilityRef = useRef<HTMLDivElement | null>(null);
 
   const isVisible = useIsVisible(visibilityRef)
 
   useEffect(() => {
-    // Check if the component is currently visible.
     if (isVisible) {
       visibilityRef.current?.blur()
       const children = visibilityRef.current?.children;
@@ -101,6 +100,10 @@ export function Drawer({
   );
 }
 
+/* 
+  Custom hook uses intersection observer
+  to determine when menu is open / active / visible
+*/
 function useIsVisible(ref: MutableRefObject<HTMLDivElement | null>) {
   const [isIntersecting, setIntersecting] = useState(false);
 

@@ -41,7 +41,34 @@ __kind__ : `string` - `"standard"(default)` | `"honeycomb"` | `"arrow"`
 menu variant
 
 __className__ : `string` - defaults to an empty string   
-use custom styles with caution, as tweaking certain style properties may break the relationship between lines 
+use custom styles with caution, as tweaking certain style properties may break the relationship between lines
+
+__style__ : `CSSProperties`  
+again, be cautious when overriding styles.  
+example cases would be to fix the burger / drawer on scroll, or create depth with a box shadow:
+```js
+      <Iceburger
+        onClick={toggleOpen}
+        lineThickness='bold'
+        kind="honeycomb"
+        position="fixed"
+      />
+      <Drawer
+        open={isOpen}
+        orientation="left"
+        height={350}
+        style={{ 
+          backgroundColor: "rgba(200, 200, 255, .9) ", 
+          position: "fixed",
+          boxShadow: "rgba(0, 0, 0, 0.24) 0px 5px 13px"
+        }}>
+          <a href="/">Hello</a>
+          <br />
+          <a href="/">Iceburger</a>
+          <br />
+          <a href="/">Drawer</a>
+      </Drawer>
+```
 
 __onClick__ : `() => void`  
 pass a simple callback to have the burger manage toggling of boolean state
@@ -65,7 +92,9 @@ function App() {
       <Drawer
         open={isOpen}
         orientation="right"
-        style={{ backgroundColor: "blue", height: "350px" }}>
+        height="800px"
+        style={{ backgroundColor: "blue", }}>
+
       </Drawer>
     </>
   )

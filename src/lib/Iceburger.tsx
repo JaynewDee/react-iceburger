@@ -11,8 +11,10 @@ export interface IceburgerOptions {
   kind?: "standard" | "honeycomb" | "arrow";
   duration?: number;
   lineThickness?: LineThickness;
-  onClick?: any;
+  onClick?: () => void;
   className?: string;
+  style?: CSSProperties;
+  position?: string
 }
 
 export type LineThickness = "thin" | "standard" | "bold";
@@ -22,6 +24,7 @@ const burgerStyles = (
   color: string,
   kind: string,
   lineThickness: LineThickness,
+  position: string
 ) => {
   const lineWidth = `${size * (kind === "honeycomb" ? 0.5 : 0.66)}rem`;
 
@@ -48,7 +51,7 @@ const burgerStyles = (
       alignItems: kind === "arrow" ? "flex-end" : "center",
       cursor: "pointer",
       background: "none",
-      position: "relative",
+      position: position || "relative",
       zIndex: 30,
       width: lineWidth,
       height: `${size / 1.5}rem`,
@@ -80,6 +83,7 @@ export function Iceburger({
   lineThickness = "standard",
   onClick,
   className = "",
+  position = "relative"
 }: IceburgerOptions) {
   const validKind =
     kind === "standard" || kind === "honeycomb" || kind === "arrow";
@@ -95,7 +99,7 @@ export function Iceburger({
   const [state, setState] = useState(false);
 
   const { containerStyles, topLineStyles, midLineStyles, botLineStyles } =
-    burgerStyles(size, color, kind, lineThickness);
+    burgerStyles(size, color, kind, lineThickness, position);
 
   type LineRef = HTMLDivElement | null;
 
@@ -131,7 +135,9 @@ export function Iceburger({
         botRef.current,
       );
     }
-    onClick();
+    if (onClick) {
+      onClick();
+    }
     setState((prev) => !prev);
   };
 
@@ -143,9 +149,9 @@ export function Iceburger({
 
   return (
     <div style={containerStyles} onClick={toggleState} className={className} onKeyDown={(e) => handleKeyToggle(e)} role="button" tabIndex={1} aria-pressed="false" aria-label="Menu toggle button">
-      <div style={topLineStyles} ref={topRef}></div>
-      <div style={midLineStyles} ref={midRef}></div>
-      <div style={botLineStyles} ref={botRef}></div>
+      <div style={topLineStyles} ref={topRef} />
+      <div style={midLineStyles} ref={midRef} />
+      <div style={botLineStyles} ref={botRef} />
     </div>
   );
 }
